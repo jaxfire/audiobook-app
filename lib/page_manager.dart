@@ -156,4 +156,12 @@ class PageManager {
   void skipToSong(int index) {
     _audioHandler.skipToQueueItem(index);
   }
+
+  void fastForward() {
+    _audioHandler.fastForward();
+  }
+
+  void rewind() {
+    _audioHandler.rewind();
+  }
 }

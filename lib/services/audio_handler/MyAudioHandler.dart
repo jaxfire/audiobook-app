@@ -2,7 +2,7 @@ import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
 
 // TODO: Separate out JustAudio code to another class?
-class MyAudioHandler extends BaseAudioHandler {
+class MyAudioHandler extends BaseAudioHandler with SeekHandler {
   final _player = AudioPlayer();
   final _playlist = ConcatenatingAudioSource(children: []);
 
@@ -142,5 +142,15 @@ class MyAudioHandler extends BaseAudioHandler {
   Future<void> skipToQueueItem(int index) async {
     if (index < 0 || index >= queue.value.length) return;
     _player.seek(Duration.zero, index: index);
+  }
+
+  @override
+  Future<void> fastForward() async {
+    super.fastForward();
+  }
+
+  @override
+  Future<void> rewind() async {
+    super.rewind();
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'notifiers/play_button_notifier.dart';
 import 'notifiers/progress_notifier.dart';
-import 'notifiers/repeat_button_notifier.dart';
 import 'page_manager.dart';
 import 'services/service_locator.dart';
 
@@ -54,6 +53,7 @@ class _MyAppState extends State<MyApp> {
 
 class CurrentSongTitle extends StatelessWidget {
   const CurrentSongTitle({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final pageManager = getIt<PageManager>();
@@ -71,6 +71,7 @@ class CurrentSongTitle extends StatelessWidget {
 
 class Playlist extends StatelessWidget {
   const Playlist({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final pageManager = getIt<PageManager>();
@@ -97,6 +98,7 @@ class Playlist extends StatelessWidget {
 
 class AudioProgressBar extends StatelessWidget {
   const AudioProgressBar({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final pageManager = getIt<PageManager>();
@@ -116,6 +118,7 @@ class AudioProgressBar extends StatelessWidget {
 
 class AudioControlButtons extends StatelessWidget {
   const AudioControlButtons({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -123,48 +126,20 @@ class AudioControlButtons extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          RepeatButton(),
           PreviousSongButton(),
+          RewindButton(),
           PlayButton(),
+          FastForwardButton(),
           NextSongButton(),
-          ShuffleButton(),
         ],
       ),
     );
   }
 }
 
-class RepeatButton extends StatelessWidget {
-  const RepeatButton({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    final pageManager = getIt<PageManager>();
-    return ValueListenableBuilder<RepeatState>(
-      valueListenable: pageManager.repeatButtonNotifier,
-      builder: (context, value, child) {
-        Icon icon;
-        switch (value) {
-          case RepeatState.off:
-            icon = Icon(Icons.repeat, color: Colors.grey);
-            break;
-          case RepeatState.repeatSong:
-            icon = Icon(Icons.repeat_one);
-            break;
-          case RepeatState.repeatPlaylist:
-            icon = Icon(Icons.repeat);
-            break;
-        }
-        return IconButton(
-          icon: icon,
-          onPressed: pageManager.repeat,
-        );
-      },
-    );
-  }
-}
-
 class PreviousSongButton extends StatelessWidget {
   const PreviousSongButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final pageManager = getIt<PageManager>();
@@ -180,8 +155,35 @@ class PreviousSongButton extends StatelessWidget {
   }
 }
 
+class FastForwardButton extends StatelessWidget {
+  const FastForwardButton({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final pageManager = getIt<PageManager>();
+    return IconButton(
+      icon: Icon(Icons.fast_forward),
+      iconSize: 32.0,
+      onPressed: pageManager.fastForward,
+    );
+  }
+}
+
+class RewindButton extends StatelessWidget {
+  const RewindButton({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final pageManager = getIt<PageManager>();
+    return IconButton(
+      icon: Icon(Icons.fast_rewind),
+      iconSize: 32.0,
+      onPressed: pageManager.rewind,
+    );
+  }
+}
+
 class PlayButton extends StatelessWidget {
   const PlayButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final pageManager = getIt<PageManager>();
@@ -216,6 +218,7 @@ class PlayButton extends StatelessWidget {
 
 class NextSongButton extends StatelessWidget {
   const NextSongButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final pageManager = getIt<PageManager>();
@@ -225,25 +228,6 @@ class NextSongButton extends StatelessWidget {
         return IconButton(
           icon: Icon(Icons.skip_next),
           onPressed: (isLast) ? null : pageManager.next,
-        );
-      },
-    );
-  }
-}
-
-class ShuffleButton extends StatelessWidget {
-  const ShuffleButton({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    final pageManager = getIt<PageManager>();
-    return ValueListenableBuilder<bool>(
-      valueListenable: pageManager.isShuffleModeEnabledNotifier,
-      builder: (context, isEnabled, child) {
-        return IconButton(
-          icon: (isEnabled)
-              ? Icon(Icons.shuffle)
-              : Icon(Icons.shuffle, color: Colors.grey),
-          onPressed: pageManager.shuffle,
         );
       },
     );

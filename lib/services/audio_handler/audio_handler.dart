@@ -1,6 +1,7 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/painting.dart';
 
+import '../../constants.dart';
 import 'MyAudioHandler.dart';
 
 Future<AudioHandler> initAudioService() async {
@@ -20,8 +21,8 @@ Future<AudioHandler> initAudioService() async {
 
       notificationColor: Color.fromARGB(255, 20, 200, 100),
       fastForwardInterval:
-          Duration(seconds: 10), // TODO: Make these customisable
-      rewindInterval: Duration(seconds: 10), // TODO: Make these customisable
+          kFastForwardDuration, // TODO: Make these customisable
+      rewindInterval: kRewindDuration, // TODO: Make these customisable
       preloadArtwork: true,
     ),
   );
