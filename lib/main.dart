@@ -1,5 +1,6 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_service_demo/constants.dart';
 
 import 'notifiers/play_button_notifier.dart';
 import 'notifiers/progress_notifier.dart';
@@ -157,26 +158,44 @@ class PreviousSongButton extends StatelessWidget {
 
 class FastForwardButton extends StatelessWidget {
   const FastForwardButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final pageManager = getIt<PageManager>();
-    return IconButton(
-      icon: Icon(Icons.fast_forward),
-      iconSize: 32.0,
-      onPressed: pageManager.fastForward,
+    return GestureDetector(
+      onTap: pageManager.fastForward,
+      child: Row(
+        children: [
+          Text(
+            kFastForwardDuration.inSeconds.toString(),
+          ),
+          Icon(
+            Icons.keyboard_arrow_right_rounded,
+            size: 24.0,
+          ),
+        ],
+      ),
     );
   }
 }
 
 class RewindButton extends StatelessWidget {
   const RewindButton({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final pageManager = getIt<PageManager>();
-    return IconButton(
-      icon: Icon(Icons.fast_rewind),
-      iconSize: 32.0,
-      onPressed: pageManager.rewind,
+    return GestureDetector(
+      onTap: pageManager.rewind,
+      child: Row(
+        children: [
+          Icon(
+            Icons.keyboard_arrow_left_rounded,
+            size: 24.0,
+          ),
+          Text(kRewindDuration.inSeconds.toString())
+        ],
+      ),
     );
   }
 }
